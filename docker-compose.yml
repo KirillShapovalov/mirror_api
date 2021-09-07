@@ -1,0 +1,30 @@
+version: '3.8'
+
+volumes:
+  mysql_volume:
+
+services:
+  db:
+    image: mysql:latest
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=9293709Bb13!
+      - MYSQL_DATABASE=mirror_db
+      - MYSQL_USER=kirill
+      - MYSQL_PASSWORD=9293709Bb13!
+
+  mirror:
+    depends_on:
+      - db
+    build: mirror/
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - TZ=Europe/Moscow
+      - MYSQL_DB_ADDR=mysql
+      - MYSQL_DB_PORT=3306
